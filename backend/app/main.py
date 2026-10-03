@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import inspect, text
 
 from app.api.router import api_router
 from app.config import settings
@@ -9,9 +10,20 @@ from app.database import Base, SessionLocal, engine
 from app.services.seed import seed_if_empty
 
 
+def ensure_schema() -> None:
+    """create_all 之后对已存在的库做轻量补列（项目未使用 Alembic）。"""
+    Base.metadata.create_all(bind=engine)
+    inspector = inspect(engine)
+    if "lanes" in inspector.get_table_names():
+        columns = {c["name"] for c in inspector.get_columns("lanes")}
+        if "min_facing" not in columns:
+            with engine.begin() as conn:
+                conn.execute(text("ALTER TABLE lanes ADD COLUMN min_facing INTEGER DEFAULT 0 NOT NULL"))
+
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    Base.metadata.create_all(bind=engine)
+    ensure_schema()
     if settings.seed_on_empty:
         db = SessionLocal()
         try:

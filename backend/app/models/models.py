@@ -19,6 +19,8 @@ class Lane(Base):
     capacity: Mapped[int] = mapped_column(Integer)
     stock: Mapped[int] = mapped_column(Integer, default=0)
     in_transit: Mapped[int] = mapped_column(Integer, default=0)
+    # 最低陈列面（件）；0 或留空表示不启用，与现网口径一致
+    min_facing: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
 
 class Sale(Base):
     __tablename__ = "sales"

@@ -7,7 +7,7 @@ onMounted(run)
 </script>
 <template>
   <h1>补货小票</h1>
-  <p class="sub">gap = 容量 − 库存 − 在途 · 收据纸样式</p>
+  <p class="sub">有效缺口 = 容量 − 库存 − 在途（库存低于最低陈列面时叠加陈列面兜底）· 收据纸样式</p>
   <button class="btn" @click="run">生成补货单</button>
   <div style="margin-top:1rem" v-if="data">
     <div class="vf-receipt">
@@ -17,6 +17,7 @@ onMounted(run)
       </div>
       <div class="vf-receipt-line" v-for="l in data.lines" :key="l.lane_id">
         <span>{{ l.slot_no }} {{ l.sku_name }}
+          <small v-if="l.min_facing">(面{{ l.min_facing }})</small>
           <small>({{ l.status === 'need_fill' ? '待补' : l.status === 'full' ? '满仓' : '超占' }})</small>
         </span>
         <span>{{ l.fill_qty }} / 缺{{ l.gap }}</span>

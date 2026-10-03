@@ -115,6 +115,26 @@ h1 { margin: 0 0 0.25rem; font-size: 1.15rem; font-weight: 800; letter-spacing: 
 .vf-slot-fill { height: 100%; background: var(--vf-led); }
 .vf-slot-fill.vf-need { background: var(--vf-amber); }
 .vf-slot-meta { font-size: 0.62rem; color: var(--vf-dim); margin-top: 0.25rem; }
+.vf-slot.vf-slot-full { border-color: rgba(57,255,136,0.45); }
+.vf-slot.vf-slot-need_fill { border-color: rgba(255,193,74,0.55); }
+.vf-slot.vf-slot-overbooked { border-color: rgba(255,92,108,0.6); }
+.vf-facing-edit {
+  display: flex; align-items: center; gap: 0.3rem;
+  font-size: 0.6rem; color: var(--vf-dim); margin-top: 0.3rem;
+}
+.vf-facing-edit input {
+  width: 3.1rem; background: #0a0c10; color: var(--vf-text);
+  border: 1px solid #3a4656; border-radius: 2px; padding: 0.12rem 0.25rem;
+  font: inherit; font-size: 0.66rem;
+}
+.vf-facing-btn { padding: 0.12rem 0.4rem; font-size: 0.62rem; border-radius: 2px; }
+.vf-summary-bar {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem;
+  background: #1a222c; border: 1px solid #3a4656; border-radius: 6px;
+  padding: 0.5rem 0.85rem; margin-bottom: 0.85rem;
+  font-size: 0.78rem; color: var(--vf-dim);
+}
+.vf-summary-bar b { color: var(--vf-led); font-size: 0.95rem; margin-left: 0.2rem; }
 
 /* Receipt paper panel */
 .vf-receipt {
