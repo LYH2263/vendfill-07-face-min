@@ -14,7 +14,8 @@ def run_refill(location_id: int = 1, db: Session = Depends(get_db)):
     if not loc: raise HTTPException(404, "点位不存在")
     lanes = db.scalars(select(Lane).where(Lane.location_id == location_id).order_by(Lane.slot_no)).all()
     payload = [{"id": l.id, "slot_no": l.slot_no, "sku_name": l.sku_name,
-                "capacity": l.capacity, "stock": l.stock, "in_transit": l.in_transit} for l in lanes]
+                "capacity": l.capacity, "stock": l.stock, "in_transit": l.in_transit,
+                "min_face": l.min_face} for l in lanes]
     summary = summarize(build_fill_lines(payload))
     order = RefillOrder(location_id=location_id, created_at=datetime.utcnow(),
                         lines_json=json.dumps(summary, ensure_ascii=False))
